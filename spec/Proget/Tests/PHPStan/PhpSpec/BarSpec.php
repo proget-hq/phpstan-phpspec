@@ -26,4 +26,11 @@ class BarSpec extends ObjectBehavior
 
         $this->foo()->shouldReturn('correct-string');
     }
+
+    public function it_should_throw_exception(Foo $foo): void
+    {
+        $foo->foo()->willReturn('shouldThrow');
+
+        $this->shouldThrow(\RuntimeException::class)->during('foo');
+    }
 }

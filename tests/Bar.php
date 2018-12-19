@@ -18,6 +18,10 @@ final class Bar
 
     public function foo(): string
     {
+        if ($this->foo->foo() === 'shouldThrow') {
+            throw new \RuntimeException();
+        }
+
         return $this->foo->foo();
     }
 }

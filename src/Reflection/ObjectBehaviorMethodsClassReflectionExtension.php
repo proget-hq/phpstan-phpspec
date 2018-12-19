@@ -48,13 +48,13 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
 
     public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
-        $subjectReflection = $this->broker->getClass(Subject::class);
-        if (0 === strpos($methodName, 'should')) {
-            return $subjectReflection->getMethod($methodName, new OutOfClassScope());
+        $objectBehaviorReflection = $this->broker->getClass(ObjectBehavior::class);
+        if ($objectBehaviorReflection->hasMethod($methodName)) {
+            return $objectBehaviorReflection->getMethod($methodName, new OutOfClassScope());
         }
 
-        if ($subjectReflection->hasNativeMethod($methodName)) {
-            return $subjectReflection->getNativeMethod($methodName);
+        if ($objectBehaviorReflection->hasNativeMethod($methodName)) {
+            return $objectBehaviorReflection->getNativeMethod($methodName);
         }
 
         /** @var PSR0Resource[] $resources */
