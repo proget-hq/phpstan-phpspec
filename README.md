@@ -9,10 +9,10 @@
 ## What does it do?
 
 * Provides correct return type for `Collaborator` in spec methods
- * `will*` methods
+  * `will*` methods
 * Provides correct methods for `ObjectBehavior`:
- * `should*` methods
- * `beConstructedWith`, `beConstructedThrough`, `beAnInstanceOf`
+  * `should*` methods
+  * `beConstructedWith`, `beConstructedThrough`, `beAnInstanceOf`
 
 ## Compatibility
 
