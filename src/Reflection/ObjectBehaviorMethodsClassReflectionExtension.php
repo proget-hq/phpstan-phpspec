@@ -66,7 +66,13 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
         $srcClassReflection = $this->broker->getClass($resources[0]->getSrcClassname());
 
         $method = $srcClassReflection->getNativeMethod($methodName);
+        $this->replaceReturnType($method);
 
+        return $method;
+    }
+
+    private function replaceReturnType(MethodReflection $method): void
+    {
         $methodReflection = new \ReflectionClass($method);
         $returnType = $methodReflection->getProperty('nativeReturnType');
         $returnType->setAccessible(true);
@@ -79,7 +85,5 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
         $variants = $methodReflection->getProperty('variants');
         $variants->setAccessible(true);
         $variants->setValue($method, null);
-
-        return $method;
     }
 }
