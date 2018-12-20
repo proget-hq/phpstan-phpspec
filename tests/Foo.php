@@ -6,8 +6,23 @@ namespace Proget\Tests\PHPStan\PhpSpec;
 
 class Foo
 {
+    /**
+     * @var Baz
+     */
+    private $baz;
+
+    public function __construct(Baz $baz)
+    {
+        $this->baz = $baz;
+    }
+
     public function foo(): string
     {
         return '';
+    }
+
+    public function makeBaz(): int
+    {
+        return $this->baz->make();
     }
 }

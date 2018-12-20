@@ -6,7 +6,7 @@ namespace Proget\PHPStan\PhpSpec\DependencyInjection;
 
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
-use Proget\PHPStan\PhpSpec\Locator\NonFinalClassLocator;
+use Proget\PHPStan\PhpSpec\Locator\SourceClassLocator;
 use Proget\PHPStan\PhpSpec\Reflection\CollaboratorDynamicMethodReturnTypeExtension;
 
 final class PhpSpecDynamicMethodReturnTypeExtensionCreator extends CompilerExtension
@@ -15,7 +15,7 @@ final class PhpSpecDynamicMethodReturnTypeExtensionCreator extends CompilerExten
     {
         $builder = $this->getContainerBuilder();
         $workingDir = $this->getContainerBuilder()->parameters['currentWorkingDirectory'];
-        $classes = (new NonFinalClassLocator())->locate(array_map(function (string $dir) use ($workingDir) {
+        $classes = (new SourceClassLocator())->locate(array_map(function (string $dir) use ($workingDir) {
             return $workingDir.DIRECTORY_SEPARATOR.ltrim($dir, DIRECTORY_SEPARATOR);
         }, $this->getContainerBuilder()->parameters['phpspecSourceFiles']));
 

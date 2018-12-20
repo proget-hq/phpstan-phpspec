@@ -7,7 +7,7 @@ namespace Proget\PHPStan\PhpSpec\Locator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class NonFinalClassLocator
+final class SourceClassLocator
 {
     public function locate(array $dirs): array
     {
@@ -44,7 +44,7 @@ final class NonFinalClassLocator
                 }
             }
 
-            if ($tokens[$i][0] === T_CLASS) {
+            if ($tokens[$i][0] === T_CLASS || $tokens[$i][0] === T_INTERFACE) {
                 for ($j = $i + 1; $j < $count; ++$j) {
                     if ($tokens[$j] === '{') {
                         return $namespace.$tokens[$i + 2][1];
