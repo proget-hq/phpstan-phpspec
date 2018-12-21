@@ -6,7 +6,8 @@ namespace Proget\PHPStan\PhpSpec\DependencyInjection;
 
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
-use Proget\PHPStan\PhpSpec\Locator\SourceClassLocator;
+use Proget\PHPStan\PhpSpec\Extractor\CollaboratorExtractor;
+use Proget\PHPStan\PhpSpec\Locator\SpecClassLocator;
 use Proget\PHPStan\PhpSpec\Reflection\CollaboratorDynamicMethodReturnTypeExtension;
 
 final class PhpSpecDynamicMethodReturnTypeExtensionCreator extends CompilerExtension
@@ -15,18 +16,18 @@ final class PhpSpecDynamicMethodReturnTypeExtensionCreator extends CompilerExten
     {
         $builder = $this->getContainerBuilder();
         $workingDir = $this->getContainerBuilder()->parameters['currentWorkingDirectory'];
-        $classes = (new SourceClassLocator())->locate(array_map(function (string $dir) use ($workingDir) {
+        $specClasses = (new SpecClassLocator())->locate(array_map(function (string $dir) use ($workingDir) {
             return $workingDir.DIRECTORY_SEPARATOR.ltrim($dir, DIRECTORY_SEPARATOR);
-        }, $this->getContainerBuilder()->parameters['phpspecSourceFiles']));
+        }, $this->getContainerBuilder()->parameters['specDirs']));
 
-        foreach ($classes as $class) {
+        foreach ((new CollaboratorExtractor())->extract($specClasses) as $class) {
             $definition = new ServiceDefinition();
             $definition->addTag('phpstan.broker.dynamicMethodReturnTypeExtension');
             $definition->setType(CollaboratorDynamicMethodReturnTypeExtension::class);
             $definition->setArguments([$class]);
 
             $builder->addDefinition(
-                'collaborator.'.strtolower((string) preg_replace('/[^a-zA-Z0-9]+/', '', (string) $class)),
+                'collaborator.'.strtolower((string) preg_replace('/[^a-zA-Z0-9]+/', '', $class)),
                 $definition
             );
         }

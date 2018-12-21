@@ -7,6 +7,5 @@ extensions:
     phpspec: Proget\PHPStan\PhpSpec\DependencyInjection\PhpSpecDynamicMethodReturnTypeExtensionCreator
 
 parameters:
-    phpspecSourceFiles:
-        - 'src/'
-        - 'tests/'
+    specDirs:
+        - 'spec/'

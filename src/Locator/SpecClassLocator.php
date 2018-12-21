@@ -7,23 +7,19 @@ namespace Proget\PHPStan\PhpSpec\Locator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class SourceClassLocator
+final class SpecClassLocator
 {
     public function locate(array $dirs): array
     {
-        $finder = new Finder();
+        $finder = (new Finder())->in($dirs)->name('*.php');
 
-        $nonFinalClasses = [];
-        foreach (iterator_to_array($finder->in($dirs)->name('*.php')->files()) as $file) {
-            $className = $this->getClassName($file);
-            if ($className === null || (new \ReflectionClass($className))->isFinal()) {
-                continue;
-            }
+        $classes = array_map(function (SplFileInfo $fileInfo): string {
+            return (string) $this->getClassName($fileInfo);
+        }, iterator_to_array($finder->files()));
 
-            $nonFinalClasses[] = $className;
-        }
-
-        return $nonFinalClasses;
+        return array_values(array_filter($classes, function (string $className): bool {
+            return preg_match('/Spec$/', $className) !== false;
+        }));
     }
 
     private function getClassName(SplFileInfo $fileInfo): ?string
@@ -44,7 +40,7 @@ final class SourceClassLocator
                 }
             }
 
-            if ($tokens[$i][0] === T_CLASS || $tokens[$i][0] === T_INTERFACE) {
+            if ($tokens[$i][0] === T_CLASS) {
                 for ($j = $i + 1; $j < $count; ++$j) {
                     if ($tokens[$j] === '{') {
                         return $namespace.$tokens[$i + 2][1];
