@@ -21,6 +21,11 @@ class FooSpec extends ObjectBehavior
         $this->shouldHaveType(Foo::class);
     }
 
+    public function it_should_return_empty_string(): void
+    {
+        $this->foo()->shouldBe('');
+    }
+
     public function it_should_make_baz(Baz $baz): void
     {
         $baz->make()->willReturn(123);

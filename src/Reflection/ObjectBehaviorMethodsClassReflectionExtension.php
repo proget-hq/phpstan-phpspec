@@ -78,12 +78,13 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
 
     private function replaceReturnType(MethodReflection $method): void
     {
+        $method->getVariants();
         $methodReflection = new \ReflectionClass($method);
-        $returnType = $methodReflection->getProperty('nativeReturnType');
+        $returnType = $methodReflection->getProperty('returnType');
         $returnType->setAccessible(true);
         $returnType->setValue($method, new SubjectType($returnType->getValue($method)));
 
-        $nativeReturnType = $methodReflection->getProperty('returnType');
+        $nativeReturnType = $methodReflection->getProperty('nativeReturnType');
         $nativeReturnType->setAccessible(true);
         $nativeReturnType->setValue($method, new SubjectType($nativeReturnType->getValue($method)));
 
