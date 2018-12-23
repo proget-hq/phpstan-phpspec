@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Proget\PHPStan\PhpSpec\Reflection;
+namespace Proget\PHPStan\PhpSpec\Type;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

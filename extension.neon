@@ -4,7 +4,7 @@ services:
         tags: [phpstan.broker.methodsClassReflectionExtension]
 
 extensions:
-    phpspec: Proget\PHPStan\PhpSpec\DependencyInjection\PhpSpecDynamicMethodReturnTypeExtensionCreator
+    phpspec: Proget\PHPStan\PhpSpec\DependencyInjection\CollaboratorExtension
 
 parameters:
     specDirs:

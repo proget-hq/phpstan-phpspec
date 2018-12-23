@@ -25,4 +25,9 @@ class Foo
     {
         return $this->baz->make();
     }
+
+    public function makeValueObject(string $string): ValueObject
+    {
+        return new ValueObject($string);
+    }
 }

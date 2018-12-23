@@ -9,15 +9,14 @@ use PhpSpec\Locator\PSR0\PSR0Resource;
 use PhpSpec\Locator\ResourceLocator;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
-use PhpSpec\Wrapper\Subject;
 use PHPStan\Analyser\OutOfClassScope;
 use PHPStan\Broker\Broker;
 use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
-use PHPStan\Type\ObjectType;
 use Proget\PHPStan\PhpSpec\Exception\SpecSourceClassNotFound;
+use Proget\PHPStan\PhpSpec\Type\SubjectType;
 
 final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClassReflectionExtension, BrokerAwareExtension
 {
@@ -63,7 +62,13 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
         if (count($resources) === 0) {
             throw new SpecSourceClassNotFound(sprintf('Source class from %s not found', $classReflection->getName()));
         }
-        $srcClassReflection = $this->broker->getClass($resources[0]->getSrcClassname());
+
+        $className = $resources[0]->getSrcClassname();
+        if (!class_exists($className)) {
+            throw new SpecSourceClassNotFound(sprintf('Spec source class %s not found', $className));
+        }
+
+        $srcClassReflection = $this->broker->getClass($className);
 
         $method = $srcClassReflection->getNativeMethod($methodName);
         $this->replaceReturnType($method);
@@ -76,11 +81,11 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
         $methodReflection = new \ReflectionClass($method);
         $returnType = $methodReflection->getProperty('nativeReturnType');
         $returnType->setAccessible(true);
-        $returnType->setValue($method, new ObjectType(Subject::class));
+        $returnType->setValue($method, new SubjectType($returnType->getValue($method)));
 
         $nativeReturnType = $methodReflection->getProperty('returnType');
         $nativeReturnType->setAccessible(true);
-        $nativeReturnType->setValue($method, new ObjectType(Subject::class));
+        $nativeReturnType->setValue($method, new SubjectType($nativeReturnType->getValue($method)));
 
         $variants = $methodReflection->getProperty('variants');
         $variants->setAccessible(true);

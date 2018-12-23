@@ -9,6 +9,11 @@ use Symfony\Component\Finder\SplFileInfo;
 
 final class SpecClassLocator
 {
+    /**
+     * @param string[] $dirs
+     *
+     * @return string[]
+     */
     public function locate(array $dirs): array
     {
         $finder = (new Finder())->in($dirs)->name('*.php');
