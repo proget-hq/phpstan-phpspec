@@ -21,6 +21,10 @@ class Foo
         return '';
     }
 
+    public function doSomething(): void
+    {
+    }
+
     public function makeBaz(): int
     {
         return $this->baz->make();

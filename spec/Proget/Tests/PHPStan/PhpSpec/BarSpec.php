@@ -33,4 +33,11 @@ class BarSpec extends ObjectBehavior
 
         $this->shouldThrow(\RuntimeException::class)->during('foo');
     }
+
+    public function it_should_call_void_one_time(Foo $foo): void
+    {
+        $foo->doSomething()->shouldBeCalledTimes(1);
+
+        $this->bar();
+    }
 }

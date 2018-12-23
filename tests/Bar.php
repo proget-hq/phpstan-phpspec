@@ -24,4 +24,9 @@ final class Bar
 
         return $this->foo->foo();
     }
+
+    public function bar(): void
+    {
+        $this->foo->doSomething();
+    }
 }
