@@ -2,6 +2,12 @@ services:
     -
         class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorMethodsClassReflectionExtension
         tags: [phpstan.broker.methodsClassReflectionExtension]
+    -
+        class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorPropertiesClassReflectionExtension
+        tags: [phpstan.broker.propertiesClassReflectionExtension]
+    -
+        class: Proget\PHPStan\PhpSpec\Type\ObjectBehaviorDynamicMethodReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
 extensions:
     phpspec: Proget\PHPStan\PhpSpec\DependencyInjection\CollaboratorExtension

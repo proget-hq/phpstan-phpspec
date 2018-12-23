@@ -31,7 +31,7 @@ final class CollaboratorDynamicMethodReturnTypeExtension implements DynamicMetho
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return true;
+        return $methodReflection->getDeclaringClass()->getName() === $this->className;
     }
 
     public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type

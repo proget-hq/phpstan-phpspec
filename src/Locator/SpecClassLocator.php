@@ -23,7 +23,7 @@ final class SpecClassLocator
         }, iterator_to_array($finder->files()));
 
         return array_values(array_filter($classes, function (string $className): bool {
-            return preg_match('/Spec$/', $className) !== false;
+            return preg_match('/Spec$/', $className) !== false && class_exists($className);
         }));
     }
 

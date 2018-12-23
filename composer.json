@@ -22,8 +22,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Proget\\Tests\\PHPStan\\PhpSpec\\": "tests/",
-            "spec\\Proget\\": "spec/Proget/"
+            "spec\\PhpSpec\\": "spec/PhpSpec/"
         }
     },
     "license": "MIT",
@@ -37,7 +36,7 @@
         "check-cs": "php-cs-fixer fix --dry-run --diff",
         "fix-cs": "php-cs-fixer fix",
         "tests": "phpspec run",
-        "stan": "phpstan analyse -l max -c ./phpstan.neon ./src ./tests ./spec",
+        "stan": "phpstan analyse -l max -c ./phpstan.neon ./src ./spec",
         "check": [
             "@check-cs",
             "@stan",

@@ -9,6 +9,7 @@ use PhpSpec\Locator\PSR0\PSR0Resource;
 use PhpSpec\Locator\ResourceLocator;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
+use PhpSpec\Wrapper\Subject;
 use PHPStan\Analyser\OutOfClassScope;
 use PHPStan\Broker\Broker;
 use PHPStan\Reflection\BrokerAwareExtension;
@@ -16,7 +17,6 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 use Proget\PHPStan\PhpSpec\Exception\SpecSourceClassNotFound;
-use Proget\PHPStan\PhpSpec\Type\SubjectType;
 
 final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClassReflectionExtension, BrokerAwareExtension
 {
@@ -51,9 +51,10 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
         if ($objectBehaviorReflection->hasMethod($methodName)) {
             return $objectBehaviorReflection->getMethod($methodName, new OutOfClassScope());
         }
-
-        if ($objectBehaviorReflection->hasNativeMethod($methodName)) {
-            return $objectBehaviorReflection->getNativeMethod($methodName);
+        // all calls on ObjectBehavior are also proxed to Subject
+        $subjectReflection = $this->broker->getClass(Subject::class);
+        if ($subjectReflection->hasMethod($methodName)) {
+            return $subjectReflection->getMethod($methodName, new OutOfClassScope());
         }
 
         /** @var PSR0Resource[] $resources */
@@ -70,26 +71,6 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
 
         $srcClassReflection = $this->broker->getClass($className);
 
-        $method = $srcClassReflection->getNativeMethod($methodName);
-        $this->replaceReturnType($method);
-
-        return $method;
-    }
-
-    private function replaceReturnType(MethodReflection $method): void
-    {
-        $method->getVariants();
-        $methodReflection = new \ReflectionClass($method);
-        $returnType = $methodReflection->getProperty('returnType');
-        $returnType->setAccessible(true);
-        $returnType->setValue($method, new SubjectType($returnType->getValue($method)));
-
-        $nativeReturnType = $methodReflection->getProperty('nativeReturnType');
-        $nativeReturnType->setAccessible(true);
-        $nativeReturnType->setValue($method, new SubjectType($nativeReturnType->getValue($method)));
-
-        $variants = $methodReflection->getProperty('variants');
-        $variants->setAccessible(true);
-        $variants->setValue($method, null);
+        return new ObjectBehaviorMethodReflection($srcClassReflection->getMethod($methodName, new OutOfClassScope()));
     }
 }
