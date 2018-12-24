@@ -3,6 +3,9 @@ services:
         class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorMethodsClassReflectionExtension
         tags: [phpstan.broker.methodsClassReflectionExtension]
     -
+        class: Proget\PHPStan\PhpSpec\Reflection\DuringCallMethodsClassReflectionExtension
+        tags: [phpstan.broker.methodsClassReflectionExtension]
+    -
         class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorPropertiesClassReflectionExtension
         tags: [phpstan.broker.propertiesClassReflectionExtension]
     -

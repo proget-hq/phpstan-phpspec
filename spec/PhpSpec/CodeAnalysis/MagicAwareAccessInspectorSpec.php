@@ -26,7 +26,7 @@ class MagicAwareAccessInspectorSpec extends ObjectBehavior
 
     public function it_should_detect_a_magic_setter_if_a_value_is_given()
     {
-        $this->isPropertyWritable(new ObjectWithMagicSet, 'property', true)->shouldReturn(true);
+        $this->isPropertyWritable(new ObjectWithMagicSet, 'property')->shouldReturn(true);
     }
 
     public function it_should_detect_a_magic_call_method()

@@ -57,6 +57,11 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
             return $subjectReflection->getMethod($methodName, new OutOfClassScope());
         }
 
+        return $this->getWrappedClassMethodReflection($classReflection, $methodName);
+    }
+
+    private function getWrappedClassMethodReflection(ClassReflection $classReflection, $methodName): MethodReflection
+    {
         /** @var PSR0Resource[] $resources */
         $resources = $this->locator->findResources((string) $classReflection->getFileName());
 

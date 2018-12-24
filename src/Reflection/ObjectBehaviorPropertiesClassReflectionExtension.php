@@ -14,7 +14,9 @@ use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 use PHPStan\Reflection\PropertyReflection;
+use PHPStan\Type\MixedType;
 use Proget\PHPStan\PhpSpec\Exception\SpecSourceClassNotFound;
+use Proget\PHPStan\PhpSpec\Type\SubjectConstantPropertyReflection;
 
 final class ObjectBehaviorPropertiesClassReflectionExtension implements PropertiesClassReflectionExtension, BrokerAwareExtension
 {
@@ -64,7 +66,9 @@ final class ObjectBehaviorPropertiesClassReflectionExtension implements Properti
 
         //special case to handle magic proxy call in object behavior
         if ($srcClassReflection->hasConstant($propertyName)) {
-            throw new \RuntimeException('Need to implement this');
+            $constant = $srcClassReflection->getConstant($propertyName);
+
+            return new SubjectConstantPropertyReflection($constant->getDeclaringClass(), new MixedType());
         }
     }
 }
