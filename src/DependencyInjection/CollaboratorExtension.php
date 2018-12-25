@@ -27,6 +27,9 @@ final class CollaboratorExtension extends CompilerExtension
                 $this->createCollaboratorDefinition($collaboratorClass)
             );
         }
+
+        $someClassName = get_class(new class {});
+        class_alias($someClassName, 'My\Special\Class');
     }
 
     private function createCollaboratorDefinition(string $collaboratorClass): ServiceDefinition
