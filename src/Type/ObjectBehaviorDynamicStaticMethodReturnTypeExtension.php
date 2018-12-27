@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Proget\PHPStan\PhpSpec\Type;
 
-use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PhpSpec\Locator\PSR0\PSR0Locator;
 use PhpSpec\Locator\Resource;
 use PhpSpec\ObjectBehavior;
@@ -12,25 +12,25 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ArrayType;
-use PHPStan\Type\DynamicMethodReturnTypeExtension;
+use PHPStan\Type\DynamicStaticMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ResourceType;
 use PHPStan\Type\Type;
 use Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorMethodReflection;
 
-final class ObjectBehaviorDynamicMethodReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class ObjectBehaviorDynamicStaticMethodReturnTypeExtension implements DynamicStaticMethodReturnTypeExtension
 {
     public function getClass(): string
     {
         return ObjectBehavior::class;
     }
 
-    public function isMethodSupported(MethodReflection $methodReflection): bool
+    public function isStaticMethodSupported(MethodReflection $methodReflection): bool
     {
         return $methodReflection instanceof ObjectBehaviorMethodReflection;
     }
 
-    public function getTypeFromMethodCall(MethodReflection $methodReflection, MethodCall $methodCall, Scope $scope): Type
+    public function getTypeFromStaticMethodCall(MethodReflection $methodReflection, StaticCall $methodCall, Scope $scope): Type
     {
         if (!$methodReflection instanceof ObjectBehaviorMethodReflection) {
             throw new ShouldNotHappenException();

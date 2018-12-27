@@ -181,7 +181,7 @@ class PSR0LocatorSpec extends ObjectBehavior
         $this->beConstructedWith($fs, 'PhpSpec', 'spec', $this->srcPath, $this->specPath);
 
         $this->supportsQuery(
-            realpath($this->srcPath.'/PhpSpec/Locator/PSR0/PSR0Locator.php')
+            (string) realpath($this->srcPath.'/PhpSpec/Locator/PSR0/PSR0Locator.php')
         )->shouldReturn(true);
     }
 
@@ -204,7 +204,7 @@ class PSR0LocatorSpec extends ObjectBehavior
         $this->beConstructedWith($fs, 'PhpSpec', 'spec', $this->srcPath, $this->specPath);
 
         $this->supportsQuery(
-            realpath($this->specPath.'/spec/PhpSpec/Locator/PSR0/PSR0LocatorSpec.php')
+            (string) realpath($this->specPath.'/spec/PhpSpec/Locator/PSR0/PSR0LocatorSpec.php')
         )->shouldReturn(true);
     }
 

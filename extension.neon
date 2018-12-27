@@ -6,15 +6,26 @@ services:
         class: Proget\PHPStan\PhpSpec\Reflection\DuringCallMethodsClassReflectionExtension
         tags: [phpstan.broker.methodsClassReflectionExtension]
     -
+        class: Proget\PHPStan\PhpSpec\Reflection\DelayedCallMethodsClassReflectionExtension
+        tags: [phpstan.broker.methodsClassReflectionExtension]
+    -
+        class: Proget\PHPStan\PhpSpec\Reflection\SpoofedCollaboratorMethodsClassReflectionExtension
+        tags: [phpstan.broker.methodsClassReflectionExtension]
+    -
         class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorPropertiesClassReflectionExtension
         tags: [phpstan.broker.propertiesClassReflectionExtension]
     -
         class: Proget\PHPStan\PhpSpec\Type\ObjectBehaviorDynamicMethodReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
+    -
+        class: Proget\PHPStan\PhpSpec\Type\ObjectBehaviorDynamicStaticMethodReturnTypeExtension
+        tags: [phpstan.broker.dynamicStaticMethodReturnTypeExtension]
 
-extensions:
-    phpspec: Proget\PHPStan\PhpSpec\DependencyInjection\CollaboratorExtension
+    directParser:
+        class: Proget\PHPStan\PhpSpec\Parser\SpecAwareDirectParser
+        arguments:
+            specDir: %currentWorkingDirectory%/%specDir%
+        autowired: no
 
 parameters:
-    specDirs:
-        - 'spec/'
+    specDir: 'spec/'

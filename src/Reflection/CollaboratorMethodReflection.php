@@ -10,12 +10,18 @@ use PHPStan\Reflection\FunctionVariant;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\Native\NativeParameterReflection;
 use PHPStan\Reflection\ParameterReflection;
+use PHPStan\Reflection\PassedByReference;
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Proget\PHPStan\PhpSpec\Wrapper\SpoofedCollaborator;
+use Prophecy\Argument\Token\AnyValuesToken;
+use Prophecy\Argument\Token\AnyValueToken;
+use Prophecy\Argument\Token\TokenInterface;
+use Prophecy\Prophecy\MethodProphecy;
 
-final class ObjectBehaviorMethodReflection implements MethodReflection
+final class CollaboratorMethodReflection implements MethodReflection
 {
     /**
      * @var MethodReflection
@@ -64,30 +70,29 @@ final class ObjectBehaviorMethodReflection implements MethodReflection
 
     public function getVariants(): array
     {
-        $variant = $this->wrappedReflection->getVariants()[0];
-
         $parameters = array_map(function (ParameterReflection $parameter) {
             return new NativeParameterReflection(
                 $parameter->getName(),
                 true,
-                $this->mergeWithCollaborator($parameter->getType()),
+                $this->mergeWithAnyValueTokens($parameter->getType()),
                 $parameter->passedByReference(),
                 $parameter->isVariadic()
             );
-        }, $variant->getParameters());
+        }, $this->wrappedReflection->getVariants()[0]->getParameters());
 
         return [
             new FunctionVariant(
-                $parameters,
-                $variant->isVariadic(),
-                $variant->getReturnType()
+                count($parameters) > 0 ? $parameters : [$this->createAnyParameter()],
+                $this->wrappedReflection->getVariants()[0]->isVariadic(),
+                new ObjectType(MethodProphecy::class)
             )
         ];
     }
 
-    private function mergeWithCollaborator(Type $type): Type
+    private function mergeWithAnyValueTokens(Type $type): Type
     {
         $types = [
+            new ObjectType(TokenInterface::class),
             new ObjectType(SpoofedCollaborator::class)
         ];
 
@@ -95,10 +100,31 @@ final class ObjectBehaviorMethodReflection implements MethodReflection
             foreach ($type->getTypes() as $unionType) {
                 $types[] = $unionType;
             }
+        } elseif ($type instanceof ArrayType) {
+            $types[] = $type->getItemType();
+
+            return new UnionType([
+                new ArrayType($type->getKeyType(), new UnionType($types)),
+                new ObjectType(TokenInterface::class)
+            ]);
         } else {
             $types[] = $type;
         }
 
         return new UnionType($types);
+    }
+
+    private function createAnyParameter(): NativeParameterReflection
+    {
+        return new NativeParameterReflection(
+            'any',
+            true,
+            new UnionType([
+                new ObjectType(AnyValueToken::class),
+                new ObjectType(AnyValuesToken::class)
+            ]),
+            PassedByReference::createNo(),
+            true
+        );
     }
 }

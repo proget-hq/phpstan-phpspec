@@ -9,6 +9,7 @@ use PhpSpec\Locator\PSR0\PSR0Resource;
 use PhpSpec\Locator\ResourceLocator;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Util\Filesystem;
+use PHPStan\Analyser\OutOfClassScope;
 use PHPStan\Broker\Broker;
 use PHPStan\Reflection\BrokerAwareExtension;
 use PHPStan\Reflection\ClassReflection;
@@ -61,7 +62,7 @@ final class ObjectBehaviorPropertiesClassReflectionExtension implements Properti
 
         $srcClassReflection = $this->broker->getClass($className);
         if ($srcClassReflection->hasProperty($propertyName)) {
-            $srcClassReflection->getProperty($propertyName);
+            return $srcClassReflection->getProperty($propertyName, new OutOfClassScope());
         }
 
         //special case to handle magic proxy call in object behavior

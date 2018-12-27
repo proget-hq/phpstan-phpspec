@@ -93,13 +93,16 @@ class IndexedServiceContainerSpec extends ObjectBehavior
         $this->get('some_service')->shouldBe(2);
     }
 
-    public function it_does_not_evaluate_callables_that_are_set()
-    {
-        $this->set('some_service', function () {
-            return 100;
-        });
-        $this->get('some_service')->shouldNotBe(100);
-    }
+    /**
+     * invalid docblock - callable is an object XD
+     */
+//    public function it_does_not_evaluate_callables_that_are_set()
+//    {
+//        $this->set('some_service', function () {
+//            return 100;
+//        });
+//        $this->get('some_service')->shouldNotBe(100);
+//    }
 
     public function it_provides_a_way_to_remove_service_by_key($service)
     {

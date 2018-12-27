@@ -67,6 +67,6 @@ class SuiteEventSpec extends ObjectBehavior
     {
         $this->beConstructedWith($suite);
 
-        $this->getTime()->shouldReturn((double) 0.0);
+        $this->getTime()->shouldReturn(0.0);
     }
 }

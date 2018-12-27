@@ -6,7 +6,7 @@ namespace Proget\PHPStan\PhpSpec\Reflection;
 
 use PHPStan\Reflection\ClassMemberReflection;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\FunctionVariantWithPhpDocs;
+use PHPStan\Reflection\FunctionVariant;
 use PHPStan\Reflection\MethodReflection;
 
 final class DuringMethodReflection implements MethodReflection
@@ -54,16 +54,11 @@ final class DuringMethodReflection implements MethodReflection
     public function getVariants(): array
     {
         $variants = $this->during->getVariants();
-        if (count($variants) === 1 && $variants[0] instanceof FunctionVariantWithPhpDocs) {
-            /** @var FunctionVariantWithPhpDocs $variant */
-            $variant = $variants[0];
-
-            return [new FunctionVariantWithPhpDocs(
-                [$variant->getParameters()[1]], //remove first param (see DuringCall::__call)
-                $variant->isVariadic(),
-                $variant->getReturnType(),
-                $variant->getPhpDocReturnType(),
-                $variant->getNativeReturnType()
+        if (count($variants) === 1 && $variants[0] instanceof FunctionVariant) {
+            return [new FunctionVariant(
+                [], // todo: maybe we can check if magic "during*" params count is correct?
+                true,
+                $variants[0]->getReturnType()
             )];
         }
 

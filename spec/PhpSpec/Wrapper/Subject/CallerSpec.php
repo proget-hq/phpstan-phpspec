@@ -73,8 +73,7 @@ class CallerSpec extends ObjectBehavior
 
     public function it_sets_a_property_on_the_wrapped_object(
         WrappedObject $wrappedObject,
-        AccessInspector $accessInspector,
-        Wrapper $wrapper
+        AccessInspector $accessInspector
     ) {
         $obj = new \stdClass();
         $obj->id = 1;
@@ -91,8 +90,6 @@ class CallerSpec extends ObjectBehavior
 
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn($obj);
-
-        $wrapper->wrap(2)->willReturn(2);
 
         $this->set('id', 2);
         if ($obj->id !== 2) {
