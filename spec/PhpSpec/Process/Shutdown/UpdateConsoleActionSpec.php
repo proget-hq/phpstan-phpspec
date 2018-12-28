@@ -20,7 +20,7 @@ class UpdateConsoleActionSpec extends ObjectBehavior
     {
         $currentExample = new CurrentExampleTracker();
         $error = ['type' => 1, 'message' => 'Hello'];
-        $currentExample->getCurrentExample('Hello');
+        $currentExample->getCurrentExample();
         $currentExampleWriter->displayFatal($currentExample, $error)->shouldBeCalled();
         $this->runAction($error);
     }

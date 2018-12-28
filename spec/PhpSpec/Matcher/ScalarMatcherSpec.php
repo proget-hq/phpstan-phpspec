@@ -406,7 +406,9 @@ class ScalarMatcherSpec extends ObjectBehavior
     {
         $fp = fopen(__FILE__, 'r');
         $this->shouldNotThrow()->duringPositiveMatch('beResource', $fp, ['']);
-        fclose($fp);
+        if (is_resource($fp)) {
+            fclose($fp);
+        }
     }
 
     public function it_does_not_match_not_resource()
@@ -423,7 +425,9 @@ class ScalarMatcherSpec extends ObjectBehavior
     {
         $fp = fopen(__FILE__, 'r');
         $this->shouldThrow()->duringNegativeMatch('beResource', $fp, ['']);
-        fclose($fp);
+        if (is_resource($fp)) {
+            fclose($fp);
+        }
     }
 
     public function it_responds_to_be_scalar()

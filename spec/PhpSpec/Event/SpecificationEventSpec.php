@@ -56,6 +56,6 @@ class SpecificationEventSpec extends ObjectBehavior
     {
         $this->beConstructedWith($specification);
 
-        $this->getTime()->shouldReturn((double) 0.0);
+        $this->getTime()->shouldReturn(0.0);
     }
 }

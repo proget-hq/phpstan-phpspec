@@ -31,7 +31,7 @@ class MagicAwareAccessInspectorSpec extends ObjectBehavior
 
     public function it_should_detect_a_magic_call_method()
     {
-        $this->isMethodCallable(new ObjectWithMagicCall, 'method')->shouldreturn(true);
+        $this->isMethodCallable(new ObjectWithMagicCall, 'method')->shouldReturn(true);
     }
 
     public function it_should_not_detect_a_getter_if_there_is_no_magic_getter_and_wrapped_inspector_finds_none(AccessInspector $accessInspector)

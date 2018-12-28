@@ -45,15 +45,15 @@ class CollaboratorManagerSpec extends ObjectBehavior
         ReflectionParameter $param1,
         ReflectionParameter $param2
     ) {
-        $this->set('arg1', '123');
-        $this->set('arg2', '456');
-        $this->set('arg3', '789');
+        $this->set('arg1', $arg1 = new \stdClass());
+        $this->set('arg2', $arg2 = new \stdClass());
+        $this->set('arg3', $arg3 = new \stdClass());
 
         $function->getParameters()->willReturn([$param1, $param2]);
         $param1->getName()->willReturn('arg1');
         $param2->getName()->willReturn('arg3');
 
-        $this->getArgumentsFor($function)->shouldReturn(['123', '789']);
+        $this->getArgumentsFor($function)->shouldReturn([$arg1, $arg3]);
     }
 
     public function it_creates_null_function_arguments_for_ReflectionFunction_if_no_collaborator_found(
@@ -61,14 +61,14 @@ class CollaboratorManagerSpec extends ObjectBehavior
         ReflectionParameter $param1,
         ReflectionParameter $param2
     ) {
-        $this->set('arg1', '123');
-        $this->set('arg2', '456');
-        $this->set('arg3', '789');
+        $this->set('arg1', $arg1 = new \stdClass());
+        $this->set('arg2', $arg2 = new \stdClass());
+        $this->set('arg3', $arg3 = new \stdClass());
 
         $function->getParameters()->willReturn([$param1, $param2]);
         $param1->getName()->willReturn('arg4');
         $param2->getName()->willReturn('arg3');
 
-        $this->getArgumentsFor($function)->shouldReturn([null, '789']);
+        $this->getArgumentsFor($function)->shouldReturn([null, $arg3]);
     }
 }
