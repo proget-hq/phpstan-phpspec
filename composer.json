@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": "^7.1",
-        "phpstan/phpstan": "^0.10.6",
+        "phpstan/phpstan": "^0.10.7",
         "nikic/php-parser": "^4.1",
         "phpspec/phpspec": "^5.1",
         "symfony/finder": "^4.2"

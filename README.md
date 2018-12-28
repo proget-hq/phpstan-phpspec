@@ -18,7 +18,7 @@
 
 | PHPStan version | PhpSpec extension version |
 | --------------- | ---------------------- |
-| 0.10.6          | 0.1.x                  |
+| 0.10.7          | 0.1.x                  |
 
 
 ## Installation
