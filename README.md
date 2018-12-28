@@ -8,11 +8,22 @@
 
 ## What does it do?
 
+* Currently compatible with original specs from `PhpSpec` itself
+* Check if custom matcher exist in given spec class
+  * support fot `getMatchers` method 
 * Provides correct return type for `Collaborator` in spec methods
   * `will*` methods
+  * support for array return type (check if array item has correct type)
+* Allow to user `Propehcy` as `Collaborator` arguments
+  * `Argument::cetera()`, `Argument::any()`
 * Provides correct methods for `ObjectBehavior`:
   * `should*` methods
+  * `during*` methods
   * `beConstructedWith`, `beConstructedThrough`, `beAnInstanceOf`
+  * search original spec class (subject) and check if methods exists
+* Provides correct attributes for `ObjectBehavior`:
+  * public attributes
+  * static properties (with `$this->CONSTANT_NAME`)
 
 ## Compatibility
 
@@ -35,10 +46,5 @@ Put this into your `phpstan.neon` config:
 includes:
 	- vendor/proget-hq/phpstan-phpspec/extension.neon
 parameters:
-    phpspecSourceFiles:
-        - 'src/'
+    specDir: 'spec/'
 ```
-
-## Limitations
-
-TBD.
