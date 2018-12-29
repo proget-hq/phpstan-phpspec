@@ -15,6 +15,9 @@ services:
         class: Proget\PHPStan\PhpSpec\Reflection\ObjectBehaviorPropertiesClassReflectionExtension
         tags: [phpstan.broker.propertiesClassReflectionExtension]
     -
+        class: Proget\PHPStan\PhpSpec\Reflection\SpoofedCollaboratorPropertiesClassReflectionExtension
+        tags: [phpstan.broker.propertiesClassReflectionExtension]
+    -
         class: Proget\PHPStan\PhpSpec\Type\ObjectBehaviorDynamicMethodReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
     -
