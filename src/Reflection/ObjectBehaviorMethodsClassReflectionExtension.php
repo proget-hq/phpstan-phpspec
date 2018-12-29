@@ -57,10 +57,14 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
             return $subjectReflection->getMethod($methodName, new OutOfClassScope());
         }
 
-        return $this->getWrappedClassMethodReflection($classReflection, $methodName);
+        return new ObjectBehaviorMethodReflection(
+            $this->broker->getClass(
+                $this->getSourceClassName($classReflection)
+            )->getMethod($methodName, new OutOfClassScope())
+        );
     }
 
-    private function getWrappedClassMethodReflection(ClassReflection $classReflection, $methodName): MethodReflection
+    private function getSourceClassName(ClassReflection $classReflection): string
     {
         /** @var PSR0Resource[] $resources */
         $resources = $this->locator->findResources((string) $classReflection->getFileName());
@@ -74,8 +78,6 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
             throw new SpecSourceClassNotFound(sprintf('Spec source class %s not found', $className));
         }
 
-        $srcClassReflection = $this->broker->getClass($className);
-
-        return new ObjectBehaviorMethodReflection($srcClassReflection->getMethod($methodName, new OutOfClassScope()));
+        return $className;
     }
 }

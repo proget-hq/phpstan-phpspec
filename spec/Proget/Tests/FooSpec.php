@@ -21,6 +21,10 @@ class FooSpec extends ObjectBehavior
         $bar->baz = $baz;
         $baz->someInt()->willReturn(99);
 
-        $this->getIntFromBaz($bar)->shouldBe(99);
+        // intentionally to test support for correct return type
+        $int = $baz->getWrappedObject()->someInt();
+        $this->getWrappedObject()->property;
+
+        $this->getIntFromBaz($bar)->shouldBe($int);
     }
 }
