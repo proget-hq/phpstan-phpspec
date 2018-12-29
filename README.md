@@ -16,6 +16,7 @@
   * support for array return type (check if array item has correct type)
 * Allow to user `Propehcy` as `Collaborator` arguments
   * `Argument::cetera()`, `Argument::any()`
+* Provides correct attributes for `Collaborator`
 * Provides correct methods for `ObjectBehavior`:
   * `should*` methods
   * `during*` methods
