@@ -35,12 +35,16 @@ final class SpoofedCollaboratorMethodsClassReflectionExtension implements Method
 
     public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
+        $collaboratorClassName = (string) preg_replace('/Collaborator$/', '', SpoofedCollaboratorRegistry::getAlias($classReflection->getName()));
         $collaboratorReflection = $this->broker->getClass(Collaborator::class);
+
+        if ($methodName === 'getWrappedObject') {
+            return new GetWrappedObjectMethodReflection($collaboratorReflection->getMethod($methodName, new OutOfClassScope()), $collaboratorClassName);
+        }
+
         if ($collaboratorReflection->hasMethod($methodName)) {
             return $collaboratorReflection->getMethod($methodName, new OutOfClassScope());
         }
-
-        $collaboratorClassName = (string) preg_replace('/Collaborator$/', '', SpoofedCollaboratorRegistry::getAlias($classReflection->getName()));
 
         return new CollaboratorMethodReflection($this->broker->getClass($collaboratorClassName)->getMethod($methodName, new OutOfClassScope()));
     }

@@ -25,6 +25,8 @@
 * Provides correct attributes for `ObjectBehavior`:
   * public attributes
   * static properties (with `$this->CONSTANT_NAME`)
+* Provides correct class for `getWrappedObject` method
+
 
 ## Compatibility
 
