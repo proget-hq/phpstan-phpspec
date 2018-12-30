@@ -11,8 +11,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  * **Removed** for now removed features.
  * **Fixed** for any bug fixes.
  * **Security** in case of vulnerabilities.
+
+ 
+## [0.1.1] 2018-12-29
+### Added
+ * support for ObjectState Matcher (is, has)
+ 
+### Removed
+ * unused symfony/finder dependency
  
  
-## Unreleased
+## [0.1.0] 2018-12-29
 ### Added
  * first initial release
