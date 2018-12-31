@@ -11,6 +11,11 @@ class Baz
      */
     private $enabled = false;
 
+    /**
+     * @var string[]
+     */
+    private $items = [];
+
     public function someInt(): int
     {
         return 10;
@@ -24,5 +29,15 @@ class Baz
     public function isEnabled(): bool
     {
         return $this->enabled;
+    }
+
+    public function addItem(string $item): void
+    {
+        $this->items[] = $item;
+    }
+
+    public function hasItems(): bool
+    {
+        return count($this->items) > 0;
     }
 }
