@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  * **Security** in case of vulnerabilities.
 
  
-## [0.1.1] 2018-12-29
+## [0.1.1] 2018-12-30
 ### Added
  * support for ObjectState Matcher (is, has)
  
