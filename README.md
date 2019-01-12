@@ -26,6 +26,7 @@
   * public attributes
   * static properties (with `$this->CONSTANT_NAME`)
 * Provides correct class for `getWrappedObject` method
+* Support `ObjectState Matcher` and check if appropriate methods exists
 
 
 ## Compatibility

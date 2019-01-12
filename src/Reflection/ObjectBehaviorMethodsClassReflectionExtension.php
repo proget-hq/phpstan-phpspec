@@ -59,8 +59,8 @@ final class ObjectBehaviorMethodsClassReflectionExtension implements MethodsClas
 
         $sourceClass = $this->getSourceClassName($classReflection);
 
-        if (preg_match('/^should(Be|Have)(.+)$/', $methodName)) {
-            return $this->broker->getClass($sourceClass)->getMethod(str_replace(['shouldBe', 'shouldHave'], ['is', 'has'], $methodName), new OutOfClassScope());
+        if (preg_match('/^should((Not)?)(Be|Have)(.+)$/', $methodName)) {
+            return $this->broker->getClass($sourceClass)->getMethod(str_replace(['shouldBe', 'shouldNotBe', 'shouldHave', 'shouldNotHave'], ['is', 'is', 'has', 'has'], $methodName), new OutOfClassScope());
         }
 
         return new ObjectBehaviorMethodReflection(
