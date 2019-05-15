@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  * **Security** in case of vulnerabilities.
 
 ## Unreleased
+
+## [0.2.0] 2019-05-15
 ### Fixed
  * support for negation in ObjectState Matcher (not)
  * support for phpstan 0.11.x
