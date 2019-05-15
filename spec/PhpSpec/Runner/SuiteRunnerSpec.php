@@ -21,7 +21,7 @@ class SuiteRunnerSpec extends ObjectBehavior
         EventDispatcher $dispatcher,
         SpecificationRunner $specRunner,
         Suite $suite,
-                 SpecificationNode $spec1,
+        SpecificationNode $spec1,
         SpecificationNode $spec2
     ) {
         $this->beConstructedWith($dispatcher, $specRunner);

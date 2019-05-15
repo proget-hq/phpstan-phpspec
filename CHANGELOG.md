@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Unreleased
 ### Fixed
  * support for negation in ObjectState Matcher (not)
+ * support for phpstan 0.11.x
  
 ## [0.1.1] 2018-12-30
 ### Added

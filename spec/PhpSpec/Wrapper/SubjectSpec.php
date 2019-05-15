@@ -22,7 +22,7 @@ class SubjectSpec extends ObjectBehavior
         WrappedObject $wrappedObject,
         Caller $caller,
         SubjectWithArrayAccess $arrayAccess,
-                 ExpectationFactory $expectationFactory,
+        ExpectationFactory $expectationFactory,
         AccessInspector $accessInspector
     ) {
         $this->beConstructedWith(

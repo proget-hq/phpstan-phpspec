@@ -30,10 +30,10 @@ final class SubjectArrayType extends ArrayType
         return TrinaryLogic::createYes();
     }
 
-    public function hasMethod(string $methodName): bool
+    public function hasMethod(string $methodName): TrinaryLogic
     {
-        if ($this->subjectType->hasMethod($methodName)) {
-            return true;
+        if ($this->subjectType->hasMethod($methodName)->yes()) {
+            return TrinaryLogic::createYes();
         }
 
         return parent::hasMethod($methodName);
@@ -41,7 +41,7 @@ final class SubjectArrayType extends ArrayType
 
     public function getMethod(string $methodName, ClassMemberAccessAnswerer $scope): MethodReflection
     {
-        if ($this->subjectType->hasMethod($methodName)) {
+        if ($this->subjectType->hasMethod($methodName)->yes()) {
             return $this->subjectType->getMethod($methodName, $scope);
         }
 

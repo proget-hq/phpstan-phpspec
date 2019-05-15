@@ -17,7 +17,7 @@ class ExpectationEventSpec extends ObjectBehavior
         Suite $suite,
         SpecificationNode $specification,
         ExampleNode $example,
-                 Matcher $matcher,
+        Matcher $matcher,
         $subject,
         Exception $exception
     ) {

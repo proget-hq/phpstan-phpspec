@@ -29,6 +29,11 @@ final class CollaboratorPropertyType implements Type
         $this->wrappedType = $wrappedType;
     }
 
+    public function isIterableAtLeastOnce(): TrinaryLogic
+    {
+        return $this->wrappedType->isIterableAtLeastOnce();
+    }
+
     public function getReferencedClasses(): array
     {
         return $this->wrappedType->getReferencedClasses();
@@ -63,7 +68,7 @@ final class CollaboratorPropertyType implements Type
         return $this->wrappedType->canAccessProperties();
     }
 
-    public function hasProperty(string $propertyName): bool
+    public function hasProperty(string $propertyName): TrinaryLogic
     {
         return $this->wrappedType->hasProperty($propertyName);
     }
@@ -78,15 +83,15 @@ final class CollaboratorPropertyType implements Type
         return TrinaryLogic::createYes();
     }
 
-    public function hasMethod(string $methodName): bool
+    public function hasMethod(string $methodName): TrinaryLogic
     {
         if (count($this->wrappedType->getReferencedClasses()) === 0) {
-            return false;
+            return TrinaryLogic::createNo();
         }
 
         $broker = Broker::getInstance();
 
-        return $broker->getClass($this->wrappedType->getReferencedClasses()[0])->hasMethod($methodName);
+        return TrinaryLogic::createFromBoolean($broker->getClass($this->wrappedType->getReferencedClasses()[0])->hasMethod($methodName));
     }
 
     public function getMethod(string $methodName, ClassMemberAccessAnswerer $scope): MethodReflection
@@ -101,7 +106,7 @@ final class CollaboratorPropertyType implements Type
         return $this->wrappedType->canAccessConstants();
     }
 
-    public function hasConstant(string $constantName): bool
+    public function hasConstant(string $constantName): TrinaryLogic
     {
         return $this->wrappedType->hasConstant($constantName);
     }

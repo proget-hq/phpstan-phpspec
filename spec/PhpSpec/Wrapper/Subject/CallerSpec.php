@@ -25,7 +25,7 @@ class CallerSpec extends ObjectBehavior
         WrappedObject $wrappedObject,
         ExampleNode $example,
         Dispatcher $dispatcher,
-                 ExceptionFactory $exceptions,
+        ExceptionFactory $exceptions,
         Wrapper $wrapper,
         AccessInspector $accessInspector,
         Subject $subject
@@ -51,7 +51,7 @@ class CallerSpec extends ObjectBehavior
     public function it_dispatches_method_call_events(
         Dispatcher $dispatcher,
         WrappedObject $wrappedObject,
-                                              AccessInspector $accessInspector
+        AccessInspector $accessInspector
     ) {
         $wrappedObject->isInstantiated()->willReturn(true);
         $wrappedObject->getInstance()->willReturn(new \ArrayObject());
@@ -100,7 +100,7 @@ class CallerSpec extends ObjectBehavior
     public function it_proxies_method_calls_to_wrapped_object(
         \ArrayObject $obj,
         WrappedObject $wrappedObject,
-                                                       AccessInspector $accessInspector
+        AccessInspector $accessInspector
     ) {
         $obj->asort()->shouldBeCalled();
 
@@ -166,10 +166,10 @@ class CallerSpec extends ObjectBehavior
 
         $exceptions->methodNotFound('spec\PhpSpec\Wrapper\Subject\ExampleClass', '__construct', [$argument])
             ->willReturn(new \PhpSpec\Exception\Fracture\MethodNotFoundException(
-                    'Method "__construct" not found.',
-                    $obj,
-                    '"ExampleClass::__construct"',
-                    []
+                'Method "__construct" not found.',
+                $obj,
+                '"ExampleClass::__construct"',
+                []
                 ))
             ->shouldBeCalled();
 
