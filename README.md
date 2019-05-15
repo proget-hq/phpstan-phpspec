@@ -33,6 +33,7 @@
 
 | PHPStan version | PhpSpec extension version |
 | --------------- | ---------------------- |
+| 0.11.6          | 0.2.x                  |
 | 0.10.7          | 0.1.x                  |
 
 

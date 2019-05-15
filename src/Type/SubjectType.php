@@ -9,10 +9,12 @@ use PHPStan\Broker\Broker;
 use PHPStan\Reflection\ClassMemberAccessAnswerer;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\ShouldNotHappenException;
+use PHPStan\TrinaryLogic;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
 use Proget\PHPStan\PhpSpec\Reflection\CustomMatcherMethodReflection;
+use Proget\PHPStan\PhpSpec\Reflection\SubjectMethodReflection;
 use Proget\PHPStan\PhpSpec\Registry\CustomMatchersRegistry;
 
 final class SubjectType extends ObjectType
@@ -28,33 +30,33 @@ final class SubjectType extends ObjectType
         $this->wrappedType = $wrappedType;
     }
 
-    public function hasMethod(string $methodName): bool
+    public function hasMethod(string $methodName): TrinaryLogic
     {
-        if ($this->wrappedType->hasMethod($methodName)) {
-            return true;
+        if ($this->wrappedType->hasMethod($methodName)->yes()) {
+            return TrinaryLogic::createYes();
         }
 
-        if (parent::hasMethod($methodName)) {
-            return true;
+        if (parent::hasMethod($methodName)->yes()) {
+            return TrinaryLogic::createYes();
         }
 
         $broker = Broker::getInstance();
         $decorator = $broker->getClass(Subject\Expectation\Decorator::class);
 
         if ($decorator->hasMethod($methodName)) {
-            return true;
+            return TrinaryLogic::createYes();
         }
 
-        return preg_match('/^should(.+)$/', $methodName) !== false;
+        return TrinaryLogic::createFromBoolean(preg_match('/^should(.+)$/', $methodName) !== false);
     }
 
     public function getMethod(string $methodName, ClassMemberAccessAnswerer $scope): MethodReflection
     {
-        if ($this->wrappedType->hasMethod($methodName)) {
-            return $this->wrappedType->getMethod($methodName, $scope);
+        if ($this->wrappedType->hasMethod($methodName)->yes()) {
+            return new SubjectMethodReflection($this->wrappedType->getMethod($methodName, $scope));
         }
 
-        if (parent::hasMethod($methodName)) {
+        if (parent::hasMethod($methodName)->yes()) {
             return parent::getMethod($methodName, $scope);
         }
 
@@ -67,7 +69,11 @@ final class SubjectType extends ObjectType
         $decorator = $broker->getClass(Subject\Expectation\Decorator::class);
 
         if ($decorator->hasMethod($methodName)) {
-            return $decorator->getMethod($methodName, $scope);
+            return new SubjectMethodReflection($decorator->getMethod($methodName, $scope));
+        }
+
+        if ($this->wrappedType->hasMethod($methodName)->maybe()) {
+            return new SubjectMethodReflection($this->wrappedType->getMethod($methodName, $scope));
         }
 
         throw new ShouldNotHappenException();
