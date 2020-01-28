@@ -43,5 +43,12 @@
             "@stan",
             "@tests"
         ]
+    },
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
     }
 }
