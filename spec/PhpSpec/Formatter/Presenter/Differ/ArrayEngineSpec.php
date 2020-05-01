@@ -5,9 +5,15 @@ declare(strict_types=1);
 namespace spec\PhpSpec\Formatter\Presenter\Differ;
 
 use PhpSpec\ObjectBehavior;
+use SebastianBergmann\Exporter\Exporter;
 
 class ArrayEngineSpec extends ObjectBehavior
 {
+    public function let(Exporter $exporter)
+    {
+        $this->beConstructedWith($exporter);
+    }
+
     public function it_is_a_diff_engine()
     {
         $this->shouldBeAnInstanceOf('PhpSpec\Formatter\Presenter\Differ\DifferEngine');
