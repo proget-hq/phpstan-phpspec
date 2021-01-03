@@ -56,6 +56,7 @@ class SpecificationGeneratorSpec extends ObjectBehavior
             '%filepath%' => '/project/spec/Acme/AppSpec.php',
             '%name%' => 'AppSpec',
             '%namespace%' => 'spec\Acme',
+            '%imports%' => "use Acme\App;\nuse PhpSpec\ObjectBehavior;",
             '%subject%' => 'Acme\App',
             '%subject_class%' => 'App'
         ];
@@ -86,6 +87,7 @@ class SpecificationGeneratorSpec extends ObjectBehavior
             '%filepath%' => '/project/spec/Acme/AppSpec.php',
             '%name%' => 'AppSpec',
             '%namespace%' => 'spec\Acme',
+            '%imports%' => "use Acme\App;\nuse PhpSpec\ObjectBehavior;",
             '%subject%' => 'Acme\App',
             '%subject_class%' => 'App'
         ];

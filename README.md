@@ -31,10 +31,11 @@
 
 ## Compatibility
 
-| PHPStan version | PhpSpec extension version |
-| --------------- | ---------------------- |
-| 0.11.6          | 0.2.x                  |
-| 0.10.7          | 0.1.x                  |
+| PHPStan version | PhpSpec version | PhpSpec extension version |
+| --------------- | --------------- | ------------------------- |
+| ^0.11.6         | ^6.0            | 0.3.x                     |
+| ^0.11.6         | ^5.1            | 0.2.x                     |
+| ^0.10.7         | ^5.1            | 0.1.x                     |
 
 
 ## Installation
