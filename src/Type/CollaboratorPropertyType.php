@@ -11,6 +11,7 @@ use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\BooleanType;
+use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
@@ -131,6 +132,11 @@ final class CollaboratorPropertyType implements Type
         return $this->wrappedType->getIterableValueType();
     }
 
+    public function isArray(): TrinaryLogic
+    {
+        return $this->wrappedType->isArray();
+    }
+
     public function isOffsetAccessible(): TrinaryLogic
     {
         return $this->wrappedType->isOffsetAccessible();
@@ -194,6 +200,16 @@ final class CollaboratorPropertyType implements Type
     public function toArray(): Type
     {
         return $this->wrappedType->toArray();
+    }
+
+    public function inferTemplateTypes(Type $receivedType): TemplateTypeMap
+    {
+        return $this->wrappedType->inferTemplateTypes($receivedType);
+    }
+
+    public function traverse(callable $cb): Type
+    {
+        return $this->wrappedType->traverse($cb);
     }
 
     public static function __set_state(array $properties): Type

@@ -60,12 +60,16 @@ final class CustomMatchersResolver implements NodeVisitor
     }
 
     /**
-     * @param Node\Expr\ArrayItem[] $items
+     * @param (Node\Expr\ArrayItem|null)[] $items
      */
     private function resolveMatchers(array $items): void
     {
         // todo: maybe we can resolve custom matcher parameters count?
         foreach ($items as $item) {
+            if ($item === null) {
+                continue;
+            }
+
             if ($item->key instanceof Node\Scalar\String_) {
                 CustomMatchersRegistry::addMatcher($this->currentSpec, $item->key->value);
             }
