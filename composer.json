@@ -9,8 +9,6 @@
         "phpspec/phpspec": "^6.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "phpstan/phpstan-phpunit": "^0.11",
         "friendsofphp/php-cs-fixer": "^2.13",
         "symfony/var-dumper": "^4.2"
     },
