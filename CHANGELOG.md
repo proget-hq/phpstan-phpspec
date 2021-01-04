@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [0.3.0] 2021-01-04
+### Added
+ * Support for PhpSpec 6 (#13)
+
+### Removed
+ * Support for PhpSpec 5 (#13)
+
 ## [0.2.1] 2020-01-29
 ### Added
  * Support for phpstan extension installer #12
