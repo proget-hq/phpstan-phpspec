@@ -9,8 +9,7 @@
         "phpspec/phpspec": "^6.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.13",
-        "symfony/var-dumper": "^4.2"
+        "friendsofphp/php-cs-fixer": "^2.13"
     },
     "autoload": {
         "psr-4": {
