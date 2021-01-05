@@ -13,8 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  * **Security** in case of vulnerabilities.
 
 ## Unreleased
+### Added
+ * Support for PHPStan 0.12 (#15)
 
-## [0.3.0] 2021-01-04
 ### Added
  * Support for PhpSpec 6 (#13)
 
