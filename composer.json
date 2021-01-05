@@ -8,7 +8,7 @@
         "phpspec/phpspec": "^6.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.13"
+        "friendsofphp/php-cs-fixer": "^2.17"
     },
     "autoload": {
         "psr-4": {
