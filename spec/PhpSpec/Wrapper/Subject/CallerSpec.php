@@ -170,7 +170,7 @@ class CallerSpec extends ObjectBehavior
                 $obj,
                 '"ExampleClass::__construct"',
                 []
-                ))
+            ))
             ->shouldBeCalled();
 
         $this->shouldThrow('\PhpSpec\Exception\Fracture\MethodNotFoundException')
