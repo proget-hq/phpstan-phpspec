@@ -24,15 +24,22 @@ services:
         class: Proget\PHPStan\PhpSpec\Type\ObjectBehaviorDynamicStaticMethodReturnTypeExtension
         tags: [phpstan.broker.dynamicStaticMethodReturnTypeExtension]
 
-    directParser:
-        class: Proget\PHPStan\PhpSpec\Parser\SpecAwareDirectParser
+    # "pathRoutingParser.inner" has the same definition than "pathRoutingParser"
+    pathRoutingParser.inner:
+        class: PHPStan\Parser\PathRoutingParser
         arguments:
+            currentPhpVersionRichParser: @currentPhpVersionRichParser
+            currentPhpVersionSimpleParser: @currentPhpVersionSimpleParser
+            php8Parser: @php8Parser
+        autowired: false
+
+    # Replace the original "pathRoutingParser"
+    pathRoutingParser!:
+        class: Proget\PHPStan\PhpSpec\Parser\SpecAwareDirectParser
+        arguments!:
+            originalParser: @pathRoutingParser.inner
             specDir: %currentWorkingDirectory%/%specDir%
-        autowired: no
+        autowired: false
 
-parameters:
-    specDir: 'spec/'
-
-    ignoreErrors:
-        - '#Method Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch\(\) invoked with 2 parameters, 0-1 required.#'
-        - '#Parameter \#1 \$event of method Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch\(\) expects object, string given.#'
+parametersSchema:
+	specDir: schema(string())

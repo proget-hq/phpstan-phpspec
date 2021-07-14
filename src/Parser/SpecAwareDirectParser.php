@@ -12,14 +12,9 @@ use Proget\PHPStan\PhpSpec\NodeVisitor\CustomMatchersResolver;
 final class SpecAwareDirectParser implements Parser
 {
     /**
-     * @var \PhpParser\Parser
+     * @var Parser
      */
-    private $parser;
-
-    /**
-     * @var NodeTraverser
-     */
-    private $traverser;
+    private $originalParser;
 
     /**
      * @var NodeTraverser
@@ -31,23 +26,16 @@ final class SpecAwareDirectParser implements Parser
      */
     private $specDir;
 
-    public function __construct(\PhpParser\Parser $parser, NodeTraverser $traverser, string $specDir)
+    public function __construct(Parser $originalParser, string $specDir)
     {
-        $this->parser = $parser;
-        $this->traverser = $traverser;
-
-        $this->specTraverser = clone $traverser;
+        $this->originalParser = $originalParser;
+        $this->specTraverser  = new \PhpParser\NodeTraverser();
         $this->specTraverser->addVisitor(new CollaboratorResolver());
         $this->specTraverser->addVisitor(new CustomMatchersResolver());
 
         $this->specDir = $specDir;
     }
 
-    /**
-     * @param string $file path to a file to parse
-     *
-     * @return \PhpParser\Node[]
-     */
     public function parseFile(string $file): array
     {
         $contents = file_get_contents($file);
@@ -56,35 +44,15 @@ final class SpecAwareDirectParser implements Parser
         }
 
         if (false !== strpos($file, $this->specDir)) {
-            return $this->parseSpecString($contents);
+            return $this->parseString($contents);
         }
 
-        return $this->parseString($contents);
+        return $this->originalParser->parseString($file);
     }
 
-    /**
-     * @param string $sourceCode
-     *
-     * @return \PhpParser\Node[]
-     */
     public function parseString(string $sourceCode): array
     {
-        $nodes = $this->parser->parse($sourceCode);
-        if ($nodes === null) {
-            throw new \PHPStan\ShouldNotHappenException();
-        }
-
-        return $this->traverser->traverse($nodes);
-    }
-
-    /**
-     * @param string $sourceCode
-     *
-     * @return \PhpParser\Node[]
-     */
-    public function parseSpecString(string $sourceCode): array
-    {
-        $nodes = $this->parser->parse($sourceCode);
+        $nodes = $this->originalParser->parseString($sourceCode);
         if ($nodes === null) {
             throw new \PHPStan\ShouldNotHappenException();
         }
