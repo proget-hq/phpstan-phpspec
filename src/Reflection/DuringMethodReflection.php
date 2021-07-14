@@ -56,6 +56,8 @@ final class DuringMethodReflection implements MethodReflection
         $variants = $this->during->getVariants();
         if (count($variants) === 1 && $variants[0] instanceof FunctionVariant) {
             return [new FunctionVariant(
+                $variants[0]->getTemplateTypeMap(),
+                $variants[0]->getResolvedTemplateTypeMap(),
                 [], // todo: maybe we can check if magic "during*" params count is correct?
                 true,
                 $variants[0]->getReturnType()
@@ -63,5 +65,40 @@ final class DuringMethodReflection implements MethodReflection
         }
 
         return $variants;
+    }
+
+    public function getDocComment(): ?string
+    {
+        return $this->during->getDocComment();
+    }
+
+    public function isDeprecated(): \PHPStan\TrinaryLogic
+    {
+        return $this->during->isDeprecated();
+    }
+
+    public function getDeprecatedDescription(): ?string
+    {
+        return $this->during->getDeprecatedDescription();
+    }
+
+    public function isFinal(): \PHPStan\TrinaryLogic
+    {
+        return $this->during->isFinal();
+    }
+
+    public function isInternal(): \PHPStan\TrinaryLogic
+    {
+        return $this->during->isInternal();
+    }
+
+    public function getThrowType(): ?\PHPStan\Type\Type
+    {
+        return $this->during->getThrowType();
+    }
+
+    public function hasSideEffects(): \PHPStan\TrinaryLogic
+    {
+        return $this->during->hasSideEffects();
     }
 }

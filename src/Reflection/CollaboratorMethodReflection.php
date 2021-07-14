@@ -15,6 +15,7 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use PHPStan\Type\VoidType;
 use Proget\PHPStan\PhpSpec\Wrapper\SpoofedCollaborator;
 use Prophecy\Argument\Token\AnyValuesToken;
 use Prophecy\Argument\Token\AnyValueToken;
@@ -58,6 +59,11 @@ final class CollaboratorMethodReflection implements MethodReflection
         return $this->wrappedReflection->isPublic();
     }
 
+    public function getDocComment(): ?string
+    {
+        return $this->wrappedReflection->getDocComment();
+    }
+
     public function getName(): string
     {
         return $this->wrappedReflection->getName();
@@ -76,17 +82,50 @@ final class CollaboratorMethodReflection implements MethodReflection
                 true,
                 $this->mergeWithAnyValueTokens($parameter->getType()),
                 $parameter->passedByReference(),
-                $parameter->isVariadic()
+                $parameter->isVariadic(),
+                $parameter->getDefaultValue()
             );
         }, $this->wrappedReflection->getVariants()[0]->getParameters());
 
         return [
             new FunctionVariant(
+                $this->wrappedReflection->getVariants()[0]->getTemplateTypeMap(),
+                $this->wrappedReflection->getVariants()[0]->getResolvedTemplateTypeMap(),
                 count($parameters) > 0 ? $parameters : [$this->createAnyParameter()],
                 $this->wrappedReflection->getVariants()[0]->isVariadic(),
                 new ObjectType(MethodProphecy::class)
             )
         ];
+    }
+
+    public function isDeprecated(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->isDeprecated();
+    }
+
+    public function getDeprecatedDescription(): ?string
+    {
+        return $this->wrappedReflection->getDeprecatedDescription();
+    }
+
+    public function isFinal(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->isFinal();
+    }
+
+    public function isInternal(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->isInternal();
+    }
+
+    public function getThrowType(): ?\PHPStan\Type\Type
+    {
+        return $this->wrappedReflection->getThrowType();
+    }
+
+    public function hasSideEffects(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->hasSideEffects();
     }
 
     private function mergeWithAnyValueTokens(Type $type): Type
@@ -124,7 +163,8 @@ final class CollaboratorMethodReflection implements MethodReflection
                 new ObjectType(AnyValuesToken::class)
             ]),
             PassedByReference::createNo(),
-            true
+            true,
+            new VoidType()
         );
     }
 }

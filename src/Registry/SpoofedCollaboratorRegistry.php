@@ -8,6 +8,7 @@ use Proget\PHPStan\PhpSpec\Exception\RuntimeException;
 
 final class SpoofedCollaboratorRegistry
 {
+    /** @var array<string,string> */
     private static $register = [];
 
     public static function setAlias(string $original, string $alias): void

@@ -31,6 +31,8 @@ final class CollaboratorResolver implements NodeVisitor
         if ($this->isExampleMethod($node)) {
             $this->isInExampleMethod = true;
         }
+
+        return null;
     }
 
     public function leaveNode(Node $node)

@@ -61,4 +61,39 @@ final class SubjectConstantPropertyReflection implements PropertyReflection
     {
         return false;
     }
+
+    public function getDocComment(): ?string
+    {
+        return null;
+    }
+
+    public function getReadableType(): \PHPStan\Type\Type
+    {
+        return $this->type;
+    }
+
+    public function getWritableType(): \PHPStan\Type\Type
+    {
+        return $this->type;
+    }
+
+    public function canChangeTypeAfterAssignment(): bool
+    {
+        return false;
+    }
+
+    public function isDeprecated(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function getDeprecatedDescription(): ?string
+    {
+        return null;
+    }
+
+    public function isInternal(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
 }
