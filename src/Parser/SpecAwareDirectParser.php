@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Proget\PHPStan\PhpSpec\Parser;
 
 use PhpParser\NodeTraverser;
+use PHPStan\File\FileHelper;
 use PHPStan\Parser\Parser;
 use Proget\PHPStan\PhpSpec\NodeVisitor\CollaboratorResolver;
 use Proget\PHPStan\PhpSpec\NodeVisitor\CustomMatchersResolver;
 
 final class SpecAwareDirectParser implements Parser
 {
+    /**
+     * @var FileHelper
+     */
+    private $fileHelper;
+
     /**
      * @var Parser
      */
@@ -26,18 +32,20 @@ final class SpecAwareDirectParser implements Parser
      */
     private $specDir;
 
-    public function __construct(Parser $originalParser, string $specDir)
+    public function __construct(FileHelper $fileHelper, Parser $originalParser, string $specDir)
     {
+        $this->fileHelper = $fileHelper;
         $this->originalParser = $originalParser;
         $this->specTraverser  = new \PhpParser\NodeTraverser();
         $this->specTraverser->addVisitor(new CollaboratorResolver());
         $this->specTraverser->addVisitor(new CustomMatchersResolver());
-
         $this->specDir = $specDir;
     }
 
     public function parseFile(string $file): array
     {
+        $file = $this->fileHelper->normalizePath($file, '/');
+
         $contents = file_get_contents($file);
         if ($contents === false) {
             throw new \PHPStan\ShouldNotHappenException();
