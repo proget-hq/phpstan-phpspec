@@ -41,9 +41,19 @@ final class CollaboratorPropertyReflection implements PropertyReflection
         return $this->wrappedReflection->isPublic();
     }
 
-    public function getType(): Type
+    public function getDocComment(): ?string
     {
-        return new CollaboratorPropertyType($this->wrappedReflection->getType());
+        return  $this->wrappedReflection->getDocComment();
+    }
+
+    public function getReadableType(): \PHPStan\Type\Type
+    {
+        return new CollaboratorPropertyType($this->wrappedReflection->getReadableType());
+    }
+
+    public function getWritableType(): \PHPStan\Type\Type
+    {
+        return new CollaboratorPropertyType($this->wrappedReflection->getWritableType());
     }
 
     public function isReadable(): bool
@@ -54,5 +64,25 @@ final class CollaboratorPropertyReflection implements PropertyReflection
     public function isWritable(): bool
     {
         return $this->wrappedReflection->isWritable();
+    }
+
+    public function canChangeTypeAfterAssignment(): bool
+    {
+        return $this->wrappedReflection->canChangeTypeAfterAssignment();
+    }
+
+    public function isInternal(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->isInternal();
+    }
+
+    public function isDeprecated(): \PHPStan\TrinaryLogic
+    {
+        return $this->wrappedReflection->isDeprecated();
+    }
+
+    public function getDeprecatedDescription(): ?string
+    {
+        return $this->wrappedReflection->getDeprecatedDescription();
     }
 }

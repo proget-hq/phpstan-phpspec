@@ -71,5 +71,7 @@ final class ObjectBehaviorPropertiesClassReflectionExtension implements Properti
 
             return new SubjectConstantPropertyReflection($constant->getDeclaringClass(), new MixedType());
         }
+
+        throw new \PHPStan\ShouldNotHappenException();
     }
 }

@@ -61,7 +61,48 @@ final class CustomMatcherMethodReflection implements MethodReflection
     public function getVariants(): array
     {
         return [
-            new FunctionVariant([], true, new VoidType())
+            new FunctionVariant(
+                \PHPStan\Type\Generic\TemplateTypeMap::createEmpty(),
+                \PHPStan\Type\Generic\TemplateTypeMap::createEmpty(),
+                [],
+                true,
+                new VoidType()
+            )
         ];
+    }
+
+    public function getDocComment(): ?string
+    {
+        return null;
+    }
+
+    public function isDeprecated(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function getDeprecatedDescription(): ?string
+    {
+        return null;
+    }
+
+    public function isFinal(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function isInternal(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function getThrowType(): ?\PHPStan\Type\Type
+    {
+        return null;
+    }
+
+    public function hasSideEffects(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createMaybe();
     }
 }

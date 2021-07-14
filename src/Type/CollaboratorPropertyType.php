@@ -12,6 +12,8 @@ use PHPStan\Reflection\PropertyReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\Generic\TemplateTypeMap;
+use PHPStan\Type\Generic\TemplateTypeReference;
+use PHPStan\Type\Generic\TemplateTypeVariance;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
@@ -215,5 +217,20 @@ final class CollaboratorPropertyType implements Type
     public static function __set_state(array $properties): Type
     {
         return new self($properties['wrappedType']);
+    }
+
+    public function isSmallerThan(Type $otherType, bool $orEqual = \false): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function isNumericString(): \PHPStan\TrinaryLogic
+    {
+        return \PHPStan\TrinaryLogic::createNo();
+    }
+
+    public function getReferencedTemplateTypes(TemplateTypeVariance $positionVariance): array
+    {
+        return $this->wrappedType->getReferencedTemplateTypes($positionVariance);
     }
 }
