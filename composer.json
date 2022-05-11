@@ -3,7 +3,7 @@
     "description": "PhpSpec extension for PHPStan",
     "type": "library",
     "require": {
-        "php": "^7.1",
+        "php": "^7.1|^8.0",
         "phpstan/phpstan": "^0.11.6",
         "phpspec/phpspec": "^6.0"
     },
